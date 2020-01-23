@@ -1,0 +1,19 @@
+version: '3'
+services:
+    api:
+        build: ./api
+        image: bugtracker-api
+        environment: 
+            - MONGO_CONNECTION=mongodb://bt_admin:N9M&m8ER@mongo:27107
+            - MONGO_DATABASE=bugtracker
+        ports:
+            "5000:80"
+
+    mongodb:
+        image: mongo
+        environment: 
+            - MONGO_INITDB_DATABASE=bugtracker
+            - MONGO_INITDB_ROOT_USERNAME=bt_admin
+            - MONGO_INITDB_ROOT_PASSWORD=N9M&m8ER
+        ports:
+            - "27017-27019:27017-27019"
