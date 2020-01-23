@@ -27,8 +27,7 @@ export default {
       if (!this.modal || !this.modal.component) {
         return null;
       }
-      const tp = `@/${this.modal.component}`;
-      return () => import(tp);
+      return this.modal.component;
     }
   }
 };

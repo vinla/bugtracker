@@ -11,17 +11,10 @@
       </div>
       <div class="w-1/2 bg-gray p-2">
         <div class="appearance-none flex items-center inline-block text-cogs-yellow font-semibold bg-cogs-grey px-4 py-2 rounded">Bug Details</div>
-        <div v-if="this.selectedBug" class="px-6 py-2">
-          <span class="font-bold">[{{this.selectedBug.id}}]</span> 
-          <span class="pl-5">{{this.selectedBug.title}}</span>
-          <div>
-            {{this.selectedBug.createdOn}}
-          </div>
-          <div>{{this.selectedBug.description}}</div>
-        </div>
+        <BugDetails v-if="selectedBug" :bug="selectedBug" />
       </div>
       <div class="w-1/4 p-2"> 
-        <SectionHeader :title="'Users'" />
+        <SectionHeader :title="'Users'" @addItem="createUser"/>
         <ul class="mx-auto list-reset bg-gray">
           <li v-for="user in users" v-bind:key="user.id">
             <div class="border-b p-2">{{user.name}}</div>
@@ -38,10 +31,14 @@ import usersService from "../services/usersService";
 import BugListItem from "../components/BugListItem";
 import Dynamic from "../components/Dynamic";
 import SectionHeader from "../components/SectionHeader";
+import CreatBug from "../modals/CreateBug";
+import SimplePrompt from "../modals/SimplePrompt";
+import BugDetails from "../components/BugDetails";
 
 export default {
   name: "home",
   components: {
+    BugDetails,
     BugListItem,
     Dynamic,
     SectionHeader
@@ -66,11 +63,23 @@ export default {
     },
     createBug: function() {
       this.$showModal({
-        component: "modals/CreateBug",
+        component: CreatBug,
         data: {}
       }).then(r => {
-
+        bugsService.createBug(r.bugTitle, r.bugDescription).then(d => this.refreshBugs());
       });
+    },
+    createUser: function() {
+      this.$showModal({
+        component: SimplePrompt,
+        data: {
+          prompt: "User name",
+          title: "Create user",
+          acceptText: "Create"
+        }
+      }).then(r => {
+        usersService.createUser(r.value).then(d => this.refreshUsers());
+      })
     }
   },
   computed: {
