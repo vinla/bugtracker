@@ -1,70 +1,54 @@
 <template>
   <div>
-    <div class="text-left text-3xl p-6 text-cogs-alt w-screen bg-grey-light">
-      <div class="container mx-auto">
-        <div class="mx-6 px-6">
-          <div>Welcome to CCG Works.</div>
-          <div>An awesome tool for collectible card game players.</div>
-          <div>Build decks for games you love and import them in to Tabletop Simulator.</div>
-        </div>
-      </div>
-    </div>
-    <div class="container mx-auto">
-      <div class="my-6">
-        <div class="w-3/4 mx-auto">
-          <SearchBox placeholder="Search for a game..." :onSearch="onSearch"/>
-        </div>
-      </div>
-      <ul class="flex flex-wrap w-3/4 mx-auto list-reset">
-        <li v-for="game in filteredGames" v-bind:key="game.id">
-          <GameTile :game="game" @select="selectGame"/>
+    <div class="flex mx-auto p-6">
+      <ul class="w-1/3 mx-auto list-reset">
+        <li v-for="bug in bugs" v-bind:key="bug.id">
+          <div>
+            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{bug.id}}</span>
+            <span class="inline-block px-3 py-1 mr-2">{{bug.title}}</span>
+          </div>
         </li>
       </ul>
+      <div class="w-2/3 bg-gray">
+        Select a bug to see the details
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import GameTile from "../components/GameTile";
-import PageButtons from "../components/PageButtons";
-import gamesService from "../services/gamesService";
-import SearchBox from "../components/SearchBox";
+import bugsService from "../services/bugsService";
 
 export default {
   name: "home",
   components: {
-    GameTile,
-    PageButtons,
-    SearchBox
+
   },
   created: function() {
-    this.refreshGames();
+    this.refreshBugs();
   },
   methods: {
-    onSearch: function(e) {
-      this.filter = e.target.value;
+    selectBug: function(game) {
+
     },
-    selectGame: function(game) {
-      this.$router.push({ name: "cards", params: { gameId: game.id } });
-    },
-    refreshGames: function() {
-      gamesService.getGames().then(d => {
-        this.games = d.games;
+    refreshBugs: function() {
+      bugsService.listBugs().then(data => {
+        this.bugs = data;
       });
     }
   },
   computed: {
-    filteredGames: function() {
-      if (this.games) {
-        return this.games.filter(g => g.name.startsWith(this.filter));
+    filteredBugs: function() {
+      if (this.bugs) {
+        return this.bugs.filter(b => this.showClosed || !b.isClosed);
       }
       return [];
     }
   },
   data: function() {
     return {
-      filter: "",
-      games: []
+      showClosed: false,
+      bugs: []
     };
   }
 };

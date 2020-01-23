@@ -19,11 +19,10 @@
 
 <script>
 import LinkButton from "./components/LinkButton";
-import Dynamic from "./components/Dynamic";
 
 export default {
   name: "App",
-  components: { CogsGlyph, DropDownButton, Dynamic, LinkButton },
+  components: { },
   mounted: function() {
     //this.$store.dispatch('retrieveProfile');
   },
