@@ -50,10 +50,22 @@ namespace Bugtracker.Api.Controllers
             return Ok();
         }
 
+        [HttpPut("{id}/assignee")]
+        public async Task<ActionResult> Assign(string id, [FromBody] AssignUserRequest request)
+        {
+            await _bugStore.Update(id, bug => bug.AssignedTo = request.UserId);
+            return Ok();
+        }
+
         public class CreateBugRequest
         {
             public string Title { get; set; }
             public string Description { get; set; }
+        }
+
+        public class AssignUserRequest
+        {
+            public string UserId { get; set; }
         }
     }    
 }
