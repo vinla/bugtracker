@@ -23,6 +23,7 @@ namespace Bugtracker.Api.Controllers
             var bug = new Bug
             {
                 Id = await _bugStore.GetNextId(),
+                CreatedOn = DateTime.Now,
                 Title = request.Title,
                 Description = request.Description
             };

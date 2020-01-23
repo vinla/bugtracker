@@ -6,5 +6,8 @@ export default {
     },
     updateUser(userId, userName) {
         return axios.patch(`users/${userId}`, {userName}).then(r => r.data);
+    },
+    listUsers() {
+        return axios.get("users").then(r => r.data);
     }
 }

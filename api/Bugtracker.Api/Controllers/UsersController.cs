@@ -18,12 +18,12 @@ namespace Bugtracker.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<User>> Create([FromBody] string userName)
+        public async Task<ActionResult<User>> Create([FromBody] UserRequest request)
         {            
             var user = new User
             {
                 Id = await _userStore.GetNextId(),
-                Name = userName
+                Name = request.UserName
             };
             await _userStore.Insert(user);
             return Ok(user);
@@ -42,10 +42,15 @@ namespace Bugtracker.Api.Controllers
         }
         
         [HttpPatch("{id}")]
-        public async Task<ActionResult> UpdateUserName(string id, [FromBody] string userName)
+        public async Task<ActionResult> UpdateUserName(string id, [FromBody] UserRequest request)
         {
-            await _userStore.Update(id, user => user.Name = userName);
+            await _userStore.Update(id, user => user.Name = request.UserName);
             return Ok();
         }
+    }
+
+    public class UserRequest
+    {
+        public string UserName { get; set; }
     }
 }

@@ -1,16 +1,32 @@
 <template>
   <div>
     <div class="flex mx-auto p-6">
-      <ul class="w-1/3 mx-auto list-reset">
-        <li v-for="bug in bugs" v-bind:key="bug.id">
+      <div class="w-1/4 p-2">
+        <SectionHeader :title="'Open Bugs'" @addItem="createBug"/>
+        <ul class="mx-auto list-reset bg-gray">
+          <li v-for="bug in bugs" v-bind:key="bug.id">
+            <BugListItem :bug="bug" @selected="selectBug" />
+          </li>
+        </ul>           
+      </div>
+      <div class="w-1/2 bg-gray p-2">
+        <div class="appearance-none flex items-center inline-block text-cogs-yellow font-semibold bg-cogs-grey px-4 py-2 rounded">Bug Details</div>
+        <div v-if="this.selectedBug" class="px-6 py-2">
+          <span class="font-bold">[{{this.selectedBug.id}}]</span> 
+          <span class="pl-5">{{this.selectedBug.title}}</span>
           <div>
-            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{bug.id}}</span>
-            <span class="inline-block px-3 py-1 mr-2">{{bug.title}}</span>
+            {{this.selectedBug.createdOn}}
           </div>
-        </li>
-      </ul>
-      <div class="w-2/3 bg-gray">
-        Select a bug to see the details
+          <div>{{this.selectedBug.description}}</div>
+        </div>
+      </div>
+      <div class="w-1/4 p-2"> 
+        <SectionHeader :title="'Users'" />
+        <ul class="mx-auto list-reset bg-gray">
+          <li v-for="user in users" v-bind:key="user.id">
+            <div class="border-b p-2">{{user.name}}</div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -18,22 +34,42 @@
 
 <script>
 import bugsService from "../services/bugsService";
+import usersService from "../services/usersService";
+import BugListItem from "../components/BugListItem";
+import Dynamic from "../components/Dynamic";
+import SectionHeader from "../components/SectionHeader";
 
 export default {
   name: "home",
   components: {
-
+    BugListItem,
+    Dynamic,
+    SectionHeader
   },
   created: function() {
     this.refreshBugs();
+    this.refreshUsers();
   },
   methods: {
-    selectBug: function(game) {
-
+    selectBug: function(bug) {
+      this.selectedBug = bug;
     },
     refreshBugs: function() {
       bugsService.listBugs().then(data => {
         this.bugs = data;
+      });
+    },
+    refreshUsers: function() {
+      usersService.listUsers().then(data => {
+        this.users = data;
+      });
+    },
+    createBug: function() {
+      this.$showModal({
+        component: "modals/CreateBug",
+        data: {}
+      }).then(r => {
+
       });
     }
   },
@@ -48,7 +84,9 @@ export default {
   data: function() {
     return {
       showClosed: false,
-      bugs: []
+      bugs: [],
+      users: [],
+      selectedBug: null
     };
   }
 };

@@ -36,6 +36,7 @@ namespace Bugtracker.MongoStore
 
         public Task Insert(TRecord record)
         {
+            System.Console.WriteLine("cs> " + _options.ConnectionString);
             return Collection.InsertOneAsync(record);
         }
 

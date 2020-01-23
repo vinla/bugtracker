@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.2-sdk AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
 WORKDIR /app
 
 # copy csproj and restore as distinct layers
@@ -19,7 +19,7 @@ WORKDIR /app/src/Bugtracker.Api
 RUN dotnet publish -c Release -o out
 
 # copy build artifacts into runtime image
-FROM microsoft/dotnet:2.2-runtime AS runtime
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS runtime
 WORKDIR /app
 COPY --from=build /app/src/Bugtracker.Api/out ./
-ENTRYPOINT ["dotnet", "BugTracker.Api.dll"]
+ENTRYPOINT ["dotnet", "Bugtracker.Api.dll"]

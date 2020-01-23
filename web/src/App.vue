@@ -4,7 +4,7 @@
       <dynamic :modal="$modal"/>
     </div>
     <div class="bg-cogs-black">
-      <nav class="w-full flex items-center justify-between flex-wrap py-2 px-6 container mx-auto">
+      <nav class="w-full py-3 px-6 mx-auto">
         <span>
           <router-link
             to="/"
@@ -18,11 +18,11 @@
 </template>
 
 <script>
-import LinkButton from "./components/LinkButton";
+import Dynamic from "./components/Dynamic";
 
 export default {
   name: "App",
-  components: { },
+  components: { Dynamic },
   mounted: function() {
     //this.$store.dispatch('retrieveProfile');
   },

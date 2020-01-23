@@ -39,7 +39,7 @@ namespace Bugtracker.Api
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
-            app.UseMvc();
+            app.UseMvc();            
         }
     }
 }
