@@ -36,7 +36,6 @@ namespace Bugtracker.MongoStore
 
         public Task Insert(TRecord record)
         {
-            System.Console.WriteLine("cs> " + _options.ConnectionString);
             return Collection.InsertOneAsync(record);
         }
 
@@ -65,7 +64,7 @@ namespace Bugtracker.MongoStore
             return Builders<TRecord>.Filter.Where(predicate);
         }
 
-        private IMongoCollection<TRecord> Collection => _getCollection.Value;
+        protected virtual IMongoCollection<TRecord> Collection => _getCollection.Value;
 
         protected abstract string CollectionName { get; }
     }
