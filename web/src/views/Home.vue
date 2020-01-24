@@ -60,9 +60,7 @@ export default {
       });
     },
     refreshUsers: function() {
-      usersService.listUsers().then(data => {
-        this.users = data;
-      });
+      this.$store.dispatch("loadUsers");
     },
     createBug: function() {
       this.$showModal({
@@ -71,7 +69,7 @@ export default {
       }).then(r => {
         bugsService.createBug(r.bugTitle, r.bugDescription).then(d => {
           this.selectedBug = d;
-          this.refreshBugs();
+          this.bugs.push(d);
         });
       });
     },
