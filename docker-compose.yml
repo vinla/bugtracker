@@ -4,16 +4,24 @@ services:
         build: ./api
         image: bugtracker-api
         environment: 
-            - MONGO_CONNECTION=mongodb://bt_admin:N9M&m8ER@mongodb:27107
+            - MONGO_CONNECTION=mongodb://bt_service:bt_pwd@mongo:27017/bugtracker
             - MONGO_DATABASE=bugtracker
         ports:
             - "5000:80"
+    
+    web:
+        build: ./web
+        image: bugtracker-web
+        ports: 
+            - "8080:8080" 
 
-    mongodb:
+    mongo:
         image: mongo
         environment: 
             - MONGO_INITDB_DATABASE=bugtracker
             - MONGO_INITDB_ROOT_USERNAME=bt_admin
             - MONGO_INITDB_ROOT_PASSWORD=N9M&m8ER        
+        volumes: 
+            - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
         ports:
             - "27017:27017"
