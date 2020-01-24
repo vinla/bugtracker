@@ -17,6 +17,9 @@ namespace Bugtracker.Api.Controllers
             _userStore = userStore ?? throw new ArgumentNullException(nameof(userStore));
         }
 
+        /// <summary>
+        /// Create a new user
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<User>> Create([FromBody] UserRequest request)
         {            
@@ -29,18 +32,27 @@ namespace Bugtracker.Api.Controllers
             return Ok(user);
         }
         
+        /// <summary>
+        /// Gets a specific user
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetById(string id)
         {
             return await _userStore.GetById(id);
         }
         
+        /// <summary>
+        /// Gets all users in the system
+        /// </summary>
         [HttpGet]
         public async Task<IEnumerable<User>> GetList()
         {
             return await _userStore.Get();
         }
         
+        /// <summary>
+        /// Update the user name of a specific user
+        /// </summary>
         [HttpPatch("{id}")]
         public async Task<ActionResult> UpdateUserName(string id, [FromBody] UserRequest request)
         {
