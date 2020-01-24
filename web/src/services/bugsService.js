@@ -11,6 +11,6 @@ export default {
     return axios.delete(`bugs/${bugId}`).then(r => r.data);
   },
   assignBug: function(bugId, userId) {
-    return axios.post("bugs/${bugId}/assign", {userId}).then(r => r.data);
+    return axios.put(`bugs/${bugId}/assignee`, {userId}).then(r => r.data);
   }
 }

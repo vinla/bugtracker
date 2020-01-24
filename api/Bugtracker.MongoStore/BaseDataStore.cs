@@ -51,6 +51,7 @@ namespace Bugtracker.MongoStore
             if(record == null)
                 throw new InvalidOperationException("Unable to find specified record");
             action(record);
+            await Update(record);
         }
         
         private IMongoDatabase GetDatabase()
