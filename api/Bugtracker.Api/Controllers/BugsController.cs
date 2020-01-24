@@ -17,6 +17,9 @@ namespace Bugtracker.Api.Controllers
             _bugStore = bugStore ?? throw new ArgumentNullException(nameof(bugStore));            
         }
 
+        /// <summary>
+        /// Creates a new bug in the bugtracker
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Bug>> Create([FromBody] CreateBugRequest request)
         {            
@@ -31,18 +34,27 @@ namespace Bugtracker.Api.Controllers
             return Ok(bug);
         }
         
+        /// <summary>
+        /// Gets details of a specific bug
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<Bug>> GetById(string id)
         {
             return await _bugStore.GetById(id);
         }
         
+        /// <summary>
+        /// Gets a list of all bugs in the system
+        /// </summary>
         [HttpGet]
         public async Task<IEnumerable<Bug>> GetList()
         {
             return await _bugStore.Get();
         }                    
 
+        /// <summary>
+        /// Close a specific bug
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<ActionResult> Close(string id)
         {
@@ -50,6 +62,9 @@ namespace Bugtracker.Api.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Assign a user to a bug
+        /// </summary>
         [HttpPut("{id}/assignee")]
         public async Task<ActionResult> Assign(string id, [FromBody] AssignUserRequest request)
         {
