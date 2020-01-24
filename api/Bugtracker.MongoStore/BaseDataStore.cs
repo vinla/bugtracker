@@ -36,6 +36,7 @@ namespace Bugtracker.MongoStore
 
         public Task Insert(TRecord record)
         {
+            System.Console.WriteLine("cs> " + _options.ConnectionString);
             return Collection.InsertOneAsync(record);
         }
 
@@ -50,6 +51,7 @@ namespace Bugtracker.MongoStore
             if(record == null)
                 throw new InvalidOperationException("Unable to find specified record");
             action(record);
+            await Update(record);
         }
         
         private IMongoDatabase GetDatabase()
