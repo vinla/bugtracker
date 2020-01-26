@@ -4,7 +4,7 @@
       <dynamic :modal="$modal"/>
     </div>
     <div class="bg-cogs-black">
-      <nav class="w-full py-3 px-6 mx-auto">
+      <nav class="w-full py-3 px-6 mx-auto" id="banner">
         <span>
           <router-link
             to="/"
