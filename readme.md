@@ -50,7 +50,7 @@ and running
 
 `dotnet test`
 
-# End to end testing with Selenium
+## End to end testing with Selenium
 
 End to end tests can provide a full system integration test by using Selenium web driver to interact with the front end. For these tests to run the full system must be running. These test can be difficult to write and maintain and expensive to run, therefore it is best to only maintain a small suite of these covering core functionaltiy.
 
@@ -58,5 +58,5 @@ A very simple sample has been provided and can be run by first running the appli
 
 NOTE: You will need to install chromedriver to the folder c:\chromedriver\ for these tests to run (although it should be possible to get these tests running in a more generic way) 
 
-# Vue component testing
+## Vue component testing
 ...
